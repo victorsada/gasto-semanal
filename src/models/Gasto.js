@@ -1,39 +1,38 @@
 const Sequelize = require('sequelize'); //la libreria
 const sequelize = require('../config/database'); //la conexion
-const Gasto = require('./Gasto');
 
-const User = sequelize.define(
-  'User',
+const Gasto = sequelize.define(
+  'Gasto',
   {
     id: {
       type: Sequelize.STRING,
       primaryKey: true,
     },
-    nombre: {
+    descripcion: {
+      //concepto
       type: Sequelize.STRING,
     },
-    email: {
+    importe: {
+      type: Sequelize.FLOAT,
+    },
+    tipo: {
       type: Sequelize.STRING,
     },
-    password: {
-      type: Sequelize.STRING,
-    },
-    ingreso: {
+    UserId: {
       type: Sequelize.FLOAT,
     },
   },
   {
-    timestamps: false,
+    timestamps: true,
   }
 );
 
-User.hasMany(Gasto, { foreingKey: 'owner', sourceKey: 'id' });
-Gasto.belongsTo(User, { foreingKey: 'owner', sourceKey: 'id' });
-
-User.sync()
+Gasto.sync()
   .then(() => {
     console.log('Tabla actualizada');
   })
   .catch((err) => console.log(err));
 
-module.exports = User;
+module.exports = Gasto;
+
+//https://sequelize.org/master/class/lib/model.js~Model.html
