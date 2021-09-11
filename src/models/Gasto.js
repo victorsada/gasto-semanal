@@ -19,7 +19,7 @@ const Gasto = sequelize.define(
       type: Sequelize.STRING,
     },
     UserId: {
-      type: Sequelize.FLOAT,
+      type: Sequelize.STRING,
     },
   },
   {

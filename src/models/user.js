@@ -27,8 +27,8 @@ const User = sequelize.define(
   }
 );
 
-User.hasMany(Gasto, { foreingKey: 'owner', sourceKey: 'id' });
-Gasto.belongsTo(User, { foreingKey: 'owner', sourceKey: 'id' });
+User.hasMany(Gasto, { foreignKey: 'UserId', sourceKey: 'id' });
+Gasto.belongsTo(User, { foreignKey: 'UserId', sourceKey: 'id' });
 
 User.sync()
   .then(() => {
