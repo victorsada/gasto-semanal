@@ -5,8 +5,9 @@ const Gasto = sequelize.define(
   'Gasto',
   {
     id: {
-      type: Sequelize.STRING,
+      type: Sequelize.UUID,
       primaryKey: true,
+      defaultValue: Sequelize.UUIDV4,
     },
     descripcion: {
       type: Sequelize.STRING,
@@ -21,7 +22,7 @@ const Gasto = sequelize.define(
       type: Sequelize.BOOLEAN,
     },
     UserId: {
-      type: Sequelize.STRING,
+      type: Sequelize.UUID,
     },
   },
   {

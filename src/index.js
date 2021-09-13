@@ -14,10 +14,12 @@ sequelize
     console.error('Unable to connect to the database:', error);
   });
 //check if table was created
-require('./models/Gasto');
 app.use(express.json());
+// routes:
 app.use('/api/gasto', require('./routes/gasto'));
 app.use('/api/user', require('./routes/user'));
+app.use('/api/gasto', require('./routes/gasto'));
+
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), () => {
   console.log('Server is up on port ', app.get('port'));
