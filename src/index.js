@@ -17,7 +17,7 @@ require('./models/User');
 require('./models/Gasto');
 app.use(express.json());
 app.use('/api/gasto', require('./routes/gasto'));
-
+app.use('/api/user', require('./routes/user'));
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), () => {
   console.log('Server is up on port ', app.get('port'));
