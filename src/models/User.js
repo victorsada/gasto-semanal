@@ -6,14 +6,16 @@ const User = sequelize.define(
   'User',
   {
     id: {
-      type: Sequelize.STRING,
+      type: Sequelize.UUID,
       primaryKey: true,
+      defaultValue: Sequelize.UUIDV4,
     },
     nombre: {
       type: Sequelize.STRING,
     },
     email: {
       type: Sequelize.STRING,
+      unique: true,
     },
     password: {
       type: Sequelize.STRING,
@@ -26,7 +28,7 @@ const User = sequelize.define(
     },
   },
   {
-    timestamps: false,
+    timestamps: true,
   }
 );
 
