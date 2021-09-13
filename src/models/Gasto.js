@@ -9,7 +9,6 @@ const Gasto = sequelize.define(
       primaryKey: true,
     },
     descripcion: {
-      //concepto
       type: Sequelize.STRING,
     },
     importe: {
@@ -17,6 +16,9 @@ const Gasto = sequelize.define(
     },
     tipo: {
       type: Sequelize.STRING,
+    },
+    estado: {
+      type: Sequelize.BOOLEAN,
     },
     UserId: {
       type: Sequelize.STRING,
@@ -34,5 +36,3 @@ Gasto.sync()
   .catch((err) => console.log(err));
 
 module.exports = Gasto;
-
-//https://sequelize.org/master/class/lib/model.js~Model.html
