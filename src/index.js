@@ -16,8 +16,13 @@ sequelize
 
 app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
+//check if table was created
+app.use(express.json());
+// routes:
 app.use('/api/gasto', require('./routes/gasto'));
 app.use('/api/user', require('./routes/user'));
+app.use('/api/gasto', require('./routes/gasto'));
+
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), () => {
   console.log('Server is up on port ', app.get('port'));
