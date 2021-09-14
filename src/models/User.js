@@ -35,7 +35,7 @@ const User = sequelize.define(
 User.hasMany(Gasto, { foreignKey: 'UserId', sourceKey: 'id' });
 Gasto.belongsTo(User, { foreignKey: 'UserId', sourceKey: 'id' });
 
-User.sync()
+User.sync({ alter: true })
   .then(() => {
     console.log('Tabla actualizada');
   })

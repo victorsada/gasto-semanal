@@ -13,10 +13,10 @@ sequelize
   .catch((error) => {
     console.error('Unable to connect to the database:', error);
   });
-//check if table was created
+
 app.use(express.json());
 // routes:
-app.use('/api/gasto', require('./routes/gasto'));
+app.use('/api/auth', require('./routes/gasto'));
 app.use('/api/user', require('./routes/user'));
 app.use('/api/gasto', require('./routes/gasto'));
 
