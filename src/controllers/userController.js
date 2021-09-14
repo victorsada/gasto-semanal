@@ -26,6 +26,9 @@ module.exports.createUser = async (req, res) => {
 module.exports.getUsers = async (req, res) => {
   try {
     const users = await User.findAll();
+    if (!users.length) {
+      throw createError('No hay usuarios');
+    }
     res.status(200).send(users);
   } catch (error) {
     console.log(error);
@@ -37,7 +40,7 @@ module.exports.getUser = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);
     if (!user) {
-      throw createError(404, 'User not found');
+      throw createError(404, 'El usuario no existe');
     }
     res.status(200).send(user);
   } catch (error) {
@@ -50,7 +53,7 @@ module.exports.deleteUser = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);
     if (!user) {
-      throw createError(404, 'User not found');
+      throw createError(404, 'El usuario no existe');
     }
     await User.destroy({
       where: {
