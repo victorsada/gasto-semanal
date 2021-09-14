@@ -18,8 +18,9 @@ const Gasto = sequelize.define(
     tipo: {
       type: Sequelize.STRING,
     },
-    estado: {
+    pagado: {
       type: Sequelize.BOOLEAN,
+      defaultValue: false,
     },
     UserId: {
       type: Sequelize.UUID,
