@@ -14,7 +14,8 @@ sequelize
   .catch((error) => {
     console.error('Unable to connect to the database:', error);
   });
-//check if table was created
+
+//innit middleware
 app.use(express.json({ extended: false }));
 // routes:
 app.use('/api/auth', require('./routes/auth'));

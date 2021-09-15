@@ -18,7 +18,7 @@ const Gasto = sequelize.define(
     tipo: {
       type: Sequelize.STRING,
     },
-    Pagado: {
+    pagado: {
       type: Sequelize.BOOLEAN,
       defaultValue: false,
     },
@@ -31,7 +31,7 @@ const Gasto = sequelize.define(
   }
 );
 
-Gasto.sync()
+Gasto.sync({ alter: true })
   .then(() => {
     console.log('Tabla actualizada');
   })
