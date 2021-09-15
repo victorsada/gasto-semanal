@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
 const {
   createGasto,
   getGastos,
@@ -14,15 +15,16 @@ const { check } = require('express-validator');
 // @access  Private
 router.post(
   '/',
+  auth,
   [
     check('descripcion', 'Descripcion es obligatoria').not().isEmpty(),
     check('importe', 'Importe es obligatorio').not().isEmpty(),
   ],
   createGasto
 );
-router.get('/', getGastos);
-router.get('/:id', getGasto);
-router.put('/:id', updateGasto);
-router.delete('/:id', deleteGasto);
+router.get('/', auth, getGastos);
+router.get('/:id', auth, getGasto);
+router.put('/:id', auth, updateGasto);
+router.delete('/:id', auth, deleteGasto);
 
 module.exports = router;

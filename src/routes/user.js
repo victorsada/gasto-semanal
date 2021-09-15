@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
+const auth = require('../middleware/auth');
 const {
   createUser,
   getUsers,
@@ -19,11 +20,12 @@ router.post(
   ],
   createUser
 );
-router.get('/', getUsers);
-router.get('/:id', getUser);
-router.delete('/:id', deleteUser);
+router.get('/', auth, getUsers);
+router.get('/:id', auth, getUser);
+router.delete('/:id', auth, deleteUser);
 router.put(
   '/:id',
+  auth,
   [check('email', 'El email no se puede editar').isEmpty()],
   updateUser
 );
