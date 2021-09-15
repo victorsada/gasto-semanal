@@ -4,6 +4,7 @@ const app = express();
 const sequelize = require('./config/database');
 const cors = require('cors');
 app.use(cors());
+
 //check if database connection has been established
 sequelize
   .authenticate()
@@ -14,9 +15,9 @@ sequelize
     console.error('Unable to connect to the database:', error);
   });
 //check if table was created
-app.use(express.json());
+app.use(express.json({ extended: false }));
 // routes:
-/* app.use('/api/auth', require('./routes/auth'));*/
+app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
 app.use('/api/gasto', require('./routes/gasto'));
 

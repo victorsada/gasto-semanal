@@ -1,8 +1,7 @@
 const createError = require('http-errors');
 const User = require('../models/User');
-const bgitcryptjs = require('bcryptjs');
+const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('config');
 
 module.exports.createUser = async (req, res) => {
   const { nombre, email, password, ingreso } = req.body;
@@ -26,13 +25,14 @@ module.exports.createUser = async (req, res) => {
         id: user.id,
       },
     };
-    jwt.sign(
+
+    await jwt.sign(
       payload,
-      config.get('jwtSecret'),
-      { expiresIn: 36000 },
+      process.env.JWT,
+      { expiresIn: 360000 },
       (err, token) => {
         if (err) throw err;
-        res.json({ token }); //res.status(200).send(user).json({ token });
+        res.json({ token });
       }
     );
   } catch (error) {
