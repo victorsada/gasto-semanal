@@ -34,7 +34,7 @@ Gasto.belongsTo(User, { foreignKey: 'UserId', sourceKey: 'id' });
 
 User.sync({ alter: true })
   .then(() => {
-    console.log('Tabla actualizada');
+    console.log('Tabla USER sincronizada');
   })
   .catch((err) => console.log(err));
 

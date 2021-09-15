@@ -9,10 +9,10 @@ app.use(cors());
 sequelize
   .authenticate()
   .then(() => {
-    console.log('Connection has been established successfully.');
+    console.log('Conexión a la base de datos establecida');
   })
   .catch((error) => {
-    console.error('Unable to connect to the database:', error);
+    console.error('Error al conectar con la base de datos', error);
   });
 
 //innit middleware

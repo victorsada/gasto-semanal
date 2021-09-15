@@ -33,7 +33,7 @@ const Gasto = sequelize.define(
 
 Gasto.sync({ alter: true })
   .then(() => {
-    console.log('Tabla actualizada');
+    console.log('Tabla GASTO sincronizada');
   })
   .catch((err) => console.log(err));
 
