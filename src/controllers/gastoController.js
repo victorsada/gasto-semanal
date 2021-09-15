@@ -11,18 +11,10 @@ module.exports.createGasto = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { id, descripcion, importe, tipo, estado, UserId } = req.body;
-
   try {
-    const gasto = await Gasto.findOrCreate({
-      where: { id: '12345' },
-      defaults: {
-        descripcion: descripcion,
-        importe: importe,
-        tipo: tipo,
-        estado: estado,
-      },
-    });
+    const gasto = new Gasto(req.body);
+    gasto.UserId = req.user.id;
+    await gasto.save();
     res.status(200).send(gasto);
   } catch (err) {
     console.error(err.message);
