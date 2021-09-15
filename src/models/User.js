@@ -23,6 +23,9 @@ const User = sequelize.define(
     ingreso: {
       type: Sequelize.FLOAT,
     },
+    saldo: {
+      type: Sequelize.FLOAT,
+    },
   },
   {
     timestamps: true,
