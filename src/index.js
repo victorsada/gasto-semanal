@@ -4,6 +4,7 @@ const app = express();
 const sequelize = require('./config/database');
 const cors = require('cors');
 app.use(cors());
+
 //check if database connection has been established
 sequelize
   .authenticate()
@@ -14,9 +15,10 @@ sequelize
     console.error('Unable to connect to the database:', error);
   });
 
-app.use(express.json());
+//innit middleware
+app.use(express.json({ extended: false }));
 // routes:
-app.use('/api/auth', require('./routes/gasto'));
+app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
 app.use('/api/gasto', require('./routes/gasto'));
 
