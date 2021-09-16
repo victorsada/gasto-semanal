@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator');
 const createError = require('http-errors');
 const Gasto = require('../models/Gasto');
-
+const User = require('../models/User');
 // @route   POST api/gasto
 // @desc    Create or *update* gasto
 // @access  Private
@@ -10,8 +10,34 @@ module.exports.createGasto = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-
+  const { usuarios, importe } = req.body;
   try {
+    //obtenemos los usuarios
+    if (usuarios) {
+      const emails = usuarios.split(',').map((email) => email.trim());
+      const users = await User.findAll({
+        where: {
+          email: emails,
+        },
+      });
+
+      //restamos el saldo de los usuarios relacionados con el gasto
+      const cantidad_usuarios = users.length;
+      if (users.length !== 0) {
+        users.forEach(async (user) => {
+          user.saldo = user.saldo - importe / (cantidad_usuarios + 1);
+          await user.save();
+        });
+        req.user.saldo = req.user.saldo - importe / (cantidad_usuarios + 1);
+        await req.user.save();
+      }
+    }
+
+    //restamos el saldo del usuario creador del gasto
+    if (!usuarios) {
+      req.user.saldo = req.user.saldo - importe;
+      await req.user.save();
+    }
     const gasto = new Gasto(req.body);
     gasto.UserId = req.user.id;
     await gasto.save();
