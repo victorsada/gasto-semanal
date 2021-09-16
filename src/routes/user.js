@@ -17,6 +17,7 @@ router.post(
     check('email', 'email es obligatorio').not().isEmpty(),
     check('password', 'password es obligatorio').not().isEmpty(),
     check('email', 'El formato debe ser xxx@xxx.com').isEmail(),
+    check('saldo', 'El saldo es obligatorio').not().isEmpty(),
   ],
   createUser
 );
