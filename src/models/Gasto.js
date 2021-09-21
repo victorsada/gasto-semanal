@@ -25,6 +25,9 @@ const Gasto = sequelize.define(
     UserId: {
       type: Sequelize.UUID,
     },
+    observacion: {
+      type: Sequelize.STRING,
+    },
   },
   {
     timestamps: true,

@@ -11,6 +11,7 @@ module.exports.createGasto = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
   const { usuarios, importe } = req.body;
+  let observacion = [];
   try {
     //obtenemos los usuarios
     if (usuarios) {
@@ -30,6 +31,9 @@ module.exports.createGasto = async (req, res) => {
         });
         req.user.saldo = req.user.saldo - importe / (cantidad_usuarios + 1);
         await req.user.save();
+        users.map((user) => {
+          observacion.push(user.email);
+        });
       }
     }
 
@@ -38,8 +42,10 @@ module.exports.createGasto = async (req, res) => {
       req.user.saldo = req.user.saldo - importe;
       await req.user.save();
     }
+    observacion.push(req.user.email);
     const gasto = new Gasto(req.body);
     gasto.UserId = req.user.id;
+    gasto.observacion = observacion.toString();
     await gasto.save();
     res.status(200).send(gasto);
   } catch (err) {
