@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize'); //la libreria
 const sequelize = require('../config/database'); //la conexion
 const Gasto = require('./Gasto');
+const CtaCte = require('./CtaCte');
 
 const User = sequelize.define(
   'User',
@@ -31,6 +32,9 @@ const User = sequelize.define(
     timestamps: true,
   }
 );
+
+User.hasMany(CtaCte, { foreignKey: 'acredor', sourceKey: 'id' });
+CtaCte.belongsTo(User, { foreignKey: 'acredor', sourceKey: 'id' });
 
 User.hasMany(Gasto, { foreignKey: 'UserId', sourceKey: 'id' });
 Gasto.belongsTo(User, { foreignKey: 'UserId', sourceKey: 'id' });

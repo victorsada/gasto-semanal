@@ -21,6 +21,7 @@ app.use(express.json({ extended: false }));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
 app.use('/api/gasto', require('./routes/gasto'));
+app.use('/api/ctacte', require('./routes/ctacte'));
 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), () => {
