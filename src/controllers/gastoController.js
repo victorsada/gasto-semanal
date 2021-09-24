@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const createError = require('http-errors');
 const Gasto = require('../models/Gasto');
 const User = require('../models/User');
+const Ctacte = require('../models/CtaCte');
 // @route   POST api/gasto
 // @desc    Create or *update* gasto
 // @access  Private
@@ -10,10 +11,10 @@ module.exports.createGasto = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const { usuarios, importe } = req.body;
-  let observacion = [];
+  const { usuarios, importe, pagado, descripcion } = req.body;
+  const observacion = [];
   try {
-    //obtenemos los usuarios
+    // obtenemos los usuarios
     if (usuarios) {
       const emails = usuarios.split(',').map((email) => email.trim());
       const users = await User.findAll({
@@ -22,24 +23,45 @@ module.exports.createGasto = async (req, res) => {
         },
       });
 
-      //restamos el saldo de los usuarios relacionados con el gasto
-      const cantidad_usuarios = users.length;
+      // restamos el saldo de los usuarios relacionados con el gasto
+      const cantidadUsuarios = users.length;
       if (users.length !== 0) {
         users.forEach(async (user) => {
-          user.saldo = user.saldo - importe / (cantidad_usuarios + 1);
-          await user.save();
+          if (pagado) {
+            user.saldo -= importe / (cantidadUsuarios + 1);
+            await user.save();
+          }
+          if (!pagado) {
+            user.deuda += importe / (cantidadUsuarios + 1);
+            await user.save();
+            const data = {
+              nombreCtacte: descripcion,
+              deudor: user.email,
+              acreedor: req.user.email,
+              monto: importe / (cantidadUsuarios + 1),
+            };
+            const ctacte = new Ctacte(data);
+            await ctacte.save();
+          }
         });
-        req.user.saldo = req.user.saldo - importe / (cantidad_usuarios + 1);
-        await req.user.save();
-        users.map((user) => {
+        if (pagado) {
+          req.user.saldo -= importe / (cantidadUsuarios + 1);
+          await req.user.save();
+        }
+        if (!pagado) {
+          req.user.saldo -= importe;
+          await req.user.save();
+        }
+
+        users.forEach((user) => {
           observacion.push(user.email);
         });
       }
     }
 
-    //restamos el saldo del usuario creador del gasto
+    // restamos el saldo del usuario creador del gasto
     if (!usuarios) {
-      req.user.saldo = req.user.saldo - importe;
+      req.user.saldo -= importe;
       await req.user.save();
     }
     observacion.push(req.user.email);
@@ -48,8 +70,8 @@ module.exports.createGasto = async (req, res) => {
     gasto.observacion = observacion.toString();
     await gasto.save();
     res.status(200).send(gasto);
-  } catch (err) {
-    console.error(err.message);
+  } catch (error) {
+    console.error(error.message);
     res.status(error.status).send(error);
   }
 };

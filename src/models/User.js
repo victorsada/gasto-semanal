@@ -26,6 +26,10 @@ const User = sequelize.define(
     saldo: {
       type: Sequelize.FLOAT,
     },
+    deuda: {
+      type: Sequelize.FLOAT,
+      defaultValue: 0,
+    },
   },
   {
     timestamps: true,
