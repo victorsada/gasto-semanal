@@ -43,7 +43,8 @@ module.exports.createDeuda = async (req, res) => {
     }
 
     const deuda = new Ctacte(req.body);
-    res.status(201).send({ deuda });
+    await deuda.save();
+    res.status(201).send(deuda);
   } catch (error) {
     console.log(error);
     res.status(error.status).send(error);
